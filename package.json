@@ -1,0 +1,135 @@
+{
+  "name": "icode",
+  "displayName": "iCode - AI Code Completion",
+  "description": "Personal AI inline code auto-suggest & completion powered by Google Gemini (Copilot alternative).",
+  "version": "1.0.0",
+  "publisher": "personal",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "copilot",
+    "ai",
+    "autocomplete",
+    "inline-completion",
+    "gemini",
+    "icode"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "icode.setApiKey",
+        "title": "iCode: Set Gemini API Key",
+        "category": "iCode"
+      },
+      {
+        "command": "icode.removeApiKey",
+        "title": "iCode: Remove Gemini API Key",
+        "category": "iCode"
+      },
+      {
+        "command": "icode.toggle",
+        "title": "iCode: Toggle Enable/Disable",
+        "category": "iCode"
+      },
+      {
+        "command": "icode.triggerSuggestion",
+        "title": "iCode: Trigger Inline Suggestion",
+        "category": "iCode"
+      },
+      {
+        "command": "icode.clearCache",
+        "title": "iCode: Clear Suggestion Cache",
+        "category": "iCode"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "icode.triggerSuggestion",
+        "key": "alt+\\",
+        "mac": "alt+\\",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "iCode Configuration",
+      "properties": {
+        "icode.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable iCode inline completions."
+        },
+        "icode.model": {
+          "type": "string",
+          "default": "gemini-2.0-flash",
+          "enum": [
+            "gemini-2.0-flash",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro"
+          ],
+          "enumDescriptions": [
+            "Fastest & newest Gemini model, ideal for sub-second code completions.",
+            "High-speed flash model with generous free quotas.",
+            "Maximum reasoning capability, best for complex logic."
+          ],
+          "description": "Google Gemini model to use for code suggestions."
+        },
+        "icode.debounceDelay": {
+          "type": "number",
+          "default": 300,
+          "minimum": 100,
+          "maximum": 2000,
+          "description": "Typing debounce delay in milliseconds before requesting suggestion."
+        },
+        "icode.maxTokens": {
+          "type": "number",
+          "default": 128,
+          "minimum": 16,
+          "maximum": 1024,
+          "description": "Maximum number of tokens to generate per completion (smaller = faster)."
+        },
+        "icode.temperature": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Sampling temperature. Lower values (e.g. 0.1-0.2) produce more deterministic, accurate code."
+        },
+        "icode.multiline": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow multi-line suggestions (similar to Copilot). If false, restricts to single-line completion."
+        },
+        "icode.maxPrefixLines": {
+          "type": "number",
+          "default": 60,
+          "description": "Number of preceding lines sent as context."
+        },
+        "icode.maxSuffixLines": {
+          "type": "number",
+          "default": 30,
+          "description": "Number of succeeding lines sent as context."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.4.5"
+  }
+}
